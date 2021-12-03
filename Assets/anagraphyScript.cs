@@ -181,13 +181,9 @@ public class anagraphyScript : MonoBehaviour
                     List<int> temp = stocked[i].ToList();
                     temp.RemoveAt(temp.IndexOf(stocked[i].Distinct().ToList()[j]));
                     stocked.Add(temp);
-
-                    //preventing lagspikes
-                    if (wordpicks3.Count() % 2500 == 0)
-                        yield return null;
                 }
-        answers = Enumerable.Range(0, wordpicks3.Count()).Where(x => stocked[x].Count() == 0).Select(x => wordpicks3[x]).ToList(); 
-        Debug.LogFormat("[Anagraphy #{0}] Displayed word is '{1}'. Valid anagraphs are any of the following: {2}.", _moduleID, wordthing.Select(x => romanized[x]).ToList().Join(""), answers.Select(x => x.Select(y => romanized[y]).ToList().Join("")).Join(", "));
+        answers = Enumerable.Range(0, wordpicks3.Count()).Where(x => stocked[x].Count() == 0).Select(x => wordpicks3[x]).ToList();
+        Debug.LogFormat("[Anagraphy #{0}] Displayed word is '{1}'. A valid anagraph would be '{2}'.", _moduleID, wordthing.Select(x => romanized[x]).ToList().Join(""), answers.PickRandom().Select(y => romanized[y]).ToList().Join(""));
     }
 
     private IEnumerator Shutdown()
